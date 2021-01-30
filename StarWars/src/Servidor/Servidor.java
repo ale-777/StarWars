@@ -11,6 +11,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import javax.swing.JLabel;
 import starwars.JuegoSW;
+import starwars.Jugador;
 
 /**
  *
@@ -33,6 +34,27 @@ public class Servidor {
         nombres = new ArrayList<>();
         conexiones = new ArrayList<ThreadServidor>();
         this.refPantalla.server = this;
+    }
+    public void actualizarEnemigo(String nombre,int index) throws IOException, ClassNotFoundException{
+        Jugador jugador = juego.buscarJugador(nombre);
+        if(jugador != null){
+            ArrayList<JLabel> labels = new ArrayList<>();
+            int indice = juego.jugadores.indexOf(jugador);
+            ThreadServidor current = conexiones.get(indice);
+            current.writer.writeInt(7);
+            int cuantos = current.reader.readInt();
+            for (int i = 0; i < cuantos; i++) {
+                labels.add((JLabel) current.objReader.readObject());
+            }
+            
+            current = conexiones.get(index);
+            current.writer.writeInt(9);
+            current.writer.writeInt(cuantos);
+            for (int i = 0; i < labels.size(); i++) {
+                JLabel get = labels.get(i);
+                current.objWriter.writeObject(get);
+            }
+        }
     }
 
     public void iniciarPartida() {
@@ -69,12 +91,16 @@ public class Servidor {
         enemigo.writer.writeInt(5);
         enemigo.writer.writeInt(x);
         enemigo.writer.writeInt(y);
-        enemigo.writer.writeInt(yo);
+ 
+        myself.writer.writeInt(6);
+        myself.writer.writeInt(x);
+        myself.writer.writeInt(y);
     }
-    public void mandarArrayFuego(int indice,ArrayList<JLabel> labels) throws IOException{
+    public void mandarArrayFuego(int indice,int x,int y) throws IOException{
         ThreadServidor current = conexiones.get(indice);
         current.writer.writeInt(6);
-        current.objWriter.writeObject(labels);
+        current.writer.writeInt(x);
+        current.writer.writeInt(y);
     }
     public void runServer(){
         int contadorDeConexiones = 0;

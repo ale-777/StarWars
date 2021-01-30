@@ -12,11 +12,9 @@ import javax.swing.JLabel;
  * @author Alejandra G
  */
 public class Armeria extends Componentes{
-    public String orientacion;
     public Armeria(String nombre,int valor, int ancho,int largo,int x, int y,String orientacion, JLabel label){
         super(nombre, valor,ancho,largo,x,y,label);
         setOrientacion(orientacion);
-        campos();
     }
     public void setOrientacion(String orientacion){
         if (orientacion == "Horizontal")
@@ -28,17 +26,6 @@ public class Armeria extends Componentes{
             this.largo = tmp;
         }
     }
-    @Override
-    public void campos(){
-        if ("Horizontal".equals(orientacion)){
-            this.campos.add(new int []{x,y});
-            this.campos.add(new int []{x+1,y});
-        }    
-        else{
-            this.campos.add(new int []{x,y});
-            this.campos.add(new int []{x,y+1});
-        }
-        }
     @Override
     public boolean enFuego(){
         if(this.casillasFuego >1)

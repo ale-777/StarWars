@@ -9,6 +9,6 @@ package Componentes;
  *
  * @author Alejandra G
  */
-public class Fabrica extends Componentes{
+public class Fabrica{
     
 }

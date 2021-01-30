@@ -11,6 +11,6 @@ import Componentes.Componentes;
  *
  * @author Alejandra G
  */
-public class Armas extends Componentes{
+public class Armas{
     
 }

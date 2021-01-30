@@ -9,6 +9,6 @@ package Componentes;
  *
  * @author Alejandra G
  */
-public class HoyoNegro extends Componentes{
+public class HoyoNegro{
     
 }

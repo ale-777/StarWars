@@ -68,8 +68,6 @@ public class JuegoSW {
                 current.componentesAgregados.add(conector);
                 current.grafo.nodos.add(new Nodo(conector));
                 System.out.println("Entra a conector");
-                current.grafo.nodosC.add(new Nodo(conector));
-                System.out.println("Tamaño de nodosC "+  current.grafo.nodosC.size());
                 current.matriz[x][y] = 1;
                 break;
             case "Mercado":
@@ -117,7 +115,7 @@ public class JuegoSW {
                 server.setFire(jugadores.indexOf(enemigo),jugadores.indexOf(yo),x,y);
                 if(comp.enFuego()){
                     System.out.println("Esta en fuego");
-                    //borrarArista(enemigo,yo,comp,x,y);
+                    borrarArista(enemigo,yo,comp,x,y);
                 }
             }
         }

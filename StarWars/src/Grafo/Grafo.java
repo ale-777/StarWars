@@ -26,7 +26,7 @@ public class Grafo {
         aristasCamino = new ArrayList<>();
     }
     public void addConexion(int nodoC,int nodo,Line2D.Double linea){
-        Nodo nodoConector = nodosC.get(nodoC);
+        Nodo nodoConector = nodos.get(nodoC);
         Nodo nodoComponente = nodos.get(nodo);
         Arista arista = new Arista(nodoConector,nodoComponente,linea);
         nodoConector.addArista(arista);
@@ -77,21 +77,25 @@ public class Grafo {
         if (nodo != null){
             ArrayList<Nodo> nodosAlFrente = new ArrayList<>();
             ArrayList<Nodo> nodosAtras = new ArrayList<>();
+            System.out.println("los que estan alfrente");
             for (int i = 0; i < nodo.aristas.size(); i++) {
                 Arista arista = nodo.aristas.get(i);
                 Nodo nodo1 = nodo.aristas.get(i).destino;
+                System.out.println(nodo1.comp.nombre);
                 nodosAlFrente.add(nodo);
                 nodo1.aristas.remove(arista);
             }
+            System.out.println("los que estan atras");
             for (int i = 0; i < nodo.aristasMA.size(); i++) {
                 Arista arista = nodo.aristasMA.get(i);
                 Nodo nodo2 = arista.origen;
+                System.out.println(nodo2.comp.nombre);
                 nodosAtras.add(nodo);
                 nodo2.aristas.remove(arista);
             }
             nodo.aristas.clear();
             this.nodos.remove(nodo);
-            ArrayList<Nodo> nodosRevisarAdelante= new ArrayList<>();
+            /*ArrayList<Nodo> nodosRevisarAdelante= new ArrayList<>();
             ArrayList<Nodo> nodosRevisarAtras= new ArrayList<>();
             Stack pila = new Stack();
             for (int i = 0; i < nodosAlFrente.size(); i++) {
@@ -102,7 +106,7 @@ public class Grafo {
              for (int i = 0; i < nodosAtras.size(); i++) {
                 pila.push(nodosAtras.get(i));
             }
-            boolean atras = borrarNodoAux(pila,nodosRevisarAtras);                       
+            boolean atras = borrarNodoAux(pila,nodosRevisarAtras); */                      
     }
     }
 }

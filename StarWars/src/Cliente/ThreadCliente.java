@@ -30,6 +30,7 @@ public class ThreadCliente extends Thread{
     private String nombre;
     private boolean running = true;
     private EspacioJF refPantalla;
+    ArrayList<JLabel> labels;
 
     public ThreadCliente(Socket socketRef, EspacioJF refPantalla) throws IOException {
         this.socketRef = socketRef;
@@ -38,6 +39,8 @@ public class ThreadCliente extends Thread{
         objWriter = new ObjectOutputStream(socketRef.getOutputStream());
         objReader = new ObjectInputStream(socketRef.getInputStream());
         this.refPantalla = refPantalla;
+        labels = new ArrayList<>();
+        
     }
     
     public void run (){
@@ -76,16 +79,30 @@ public class ThreadCliente extends Thread{
                     case 5://pintar fuego en mi pantalla enemigo
                         int x= reader.readInt();
                         int y = reader.readInt();
-                        int indexEnemigo = reader.readInt();
-                        refPantalla.pintarFuego(x, y,indexEnemigo);
+                        refPantalla.pintarFuego(x, y);
                         System.out.println("llego a pintar fuego");
                         break;
                     case 6://refPantalla.pintarFuegomi pantalla
-                        ArrayList<JLabel> labelsEnemigo = (ArrayList<JLabel>)objReader.readObject();
-                        refPantalla.pintarEnemigo(labelsEnemigo);
-                        System.out.println("Esta llegando al case 6 cleinte");
+                        int x6 = reader.readInt();
+                        int y6 = reader.readInt();
+                        refPantalla.pintarEnemigo(x6,y6);
                         break;
-                    
+                    case 7:
+                        writer.writeInt(labels.size());
+                        for (int i = 0; i < labels.size(); i++) {
+                            JLabel get = labels.get(i);
+                            objWriter.writeObject(get);
+                        }
+                        
+                        break;
+                    case 8:
+                        ArrayList<JLabel> labels = new ArrayList<>();
+                        int cuantos = reader.readInt();
+                        for (int i = 0; i < cuantos; i++) {
+                            labels.add((JLabel) objReader.readObject());
+                        }
+                        //refPantalla.pintarEnemigo(labels);
+                        break;
                     
                 }
             } catch (IOException ex) {

@@ -43,21 +43,14 @@ public class TiendaJF extends javax.swing.JFrame {
     }
     public void updateCBBcolocados(){
         cbbComponentes2.removeAllItems();
+        cbbConectores.removeAllItems();
         for (int i = 0; i < refPantalla.componentesColocados.size(); i++) {
             ArrayList<String> current = refPantalla.componentesColocados.get(i);
             cbbComponentes2.addItem(current.get(0) + " [" +current.get(1) +","+current.get(2)+"]");
-            
+            cbbConectores.addItem(current.get(0) + " [" +current.get(1) +","+current.get(2)+"]"); 
         }
         cbbComponentes2.setSelectedIndex(-1);
-    }
-    public void updateCBBconector(){
-        cbbConectores.removeAllItems();
-        for (int i = 0; i < refPantalla.conectoresColocados.size(); i++) {
-            ArrayList<String> current = refPantalla.conectoresColocados.get(i);
-            cbbConectores.addItem(current.get(0) + " [" +current.get(1) +","+current.get(2)+"]");  
-        }
         cbbConectores.setSelectedIndex(-1);
-        
     }
     public void actualizarDinero(int monto){
         lblDinero.setText(monto+"");

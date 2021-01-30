@@ -9,6 +9,6 @@ package Armas;
  *
  * @author Alejandra G
  */
-public class Bomba extends Armas{
+public class Bomba {
     
 }

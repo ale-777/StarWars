@@ -20,8 +20,9 @@ public abstract class Componentes {
     public int x;
     public int y;
     public JLabel label;
-    public ArrayList<int []> campos;
+    public ArrayList<ArrayList> campos;
     public int casillasFuego;
+    public String orientacion;
     public Componentes(){
         
     }
@@ -36,10 +37,5 @@ public abstract class Componentes {
         campos = new ArrayList<>();
         casillasFuego = 0;
     }
-    public void campos(){
-        
-    };
-    public boolean enFuego(){
-        return false;
-    };
+    public abstract boolean enFuego();
 }

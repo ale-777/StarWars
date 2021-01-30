@@ -5,6 +5,7 @@
  */
 package Componentes;
 
+import java.util.ArrayList;
 import javax.swing.JLabel;
 
 /**
@@ -14,15 +15,8 @@ import javax.swing.JLabel;
 public class Mundo extends Componentes {
     public Mundo(String nombre,int valor, int ancho,int largo,int x, int y,JLabel label){
         super(nombre, valor,ancho,largo,x,y,label);
-        campos();
+        
     }
-    @Override
-    public void campos(){
-            campos.add(new int []{x,y});
-            campos.add(new int []{x+1,y});
-            campos.add(new int []{x,y+1});
-            campos.add(new int []{x+1,y+1});
-}
         @Override
     public boolean enFuego(){
         if(this.casillasFuego >3)

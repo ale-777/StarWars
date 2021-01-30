@@ -6,6 +6,7 @@
 package Servidor;
 
 
+import Cliente.ObjetoGuardar;
 import Componentes.Componentes;
 import java.awt.geom.Line2D;
 import java.io.DataInputStream;
@@ -27,7 +28,7 @@ import javax.swing.JLabel;
 public class ThreadServidor extends Thread{
     public String nombre;
     private Socket socketRef;
-    private DataInputStream reader;
+    public DataInputStream reader;
     public DataOutputStream writer;
     public   ObjectOutputStream objWriter;
     public ObjectInputStream objReader;
@@ -35,6 +36,7 @@ public class ThreadServidor extends Thread{
     Servidor server;
     ArrayList<Componentes> componentesDisponibles;
     ArrayList<Componentes> componentesAgregados;
+    ArrayList<JLabel> labels;
 
     public ThreadServidor(Socket socketRef, Servidor server) throws IOException {
         this.socketRef = socketRef;
@@ -44,6 +46,7 @@ public class ThreadServidor extends Thread{
         objReader = new ObjectInputStream(socketRef.getInputStream());
         this.server = server;
         componentesDisponibles = new ArrayList<Componentes>();
+        labels = new ArrayList<>();
         
     }
     
@@ -104,12 +107,20 @@ public class ThreadServidor extends Thread{
                         server.juego.impacto(nombreDestino,server.conexiones.indexOf(this),x,y,tipo);
                         break;
                     case 7:
-                        System.out.println("Esta llegando al case 7 server");
+                        //System.out.println("Esta llegando al case 7 server");
                         int indexMandar = reader.readInt();
-                        ArrayList<JLabel> labels = (ArrayList<JLabel>)objReader.readObject();
-                        server.mandarArrayFuego(indexMandar,labels);
+                        JLabel lbl = (JLabel)objReader.readObject();
+                        int x7 = reader.readInt();
+                        int y7 = reader.readInt();
+                        labels.add(lbl);
+                        //System.out.println("Llega al server con "+labels.size());
+                        server.mandarArrayFuego(indexMandar,x7,y7);
                         break;
-                        
+                    case 8:
+                        String nombreAux = reader.readUTF();
+                        server.actualizarEnemigo(nombre,server.conexiones.indexOf(this));
+                        break;
+   
                         
                 }
             } catch (IOException ex) {

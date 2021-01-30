@@ -68,18 +68,33 @@ public class Jugador {
     public Componentes buscarComponente(int x,int y){
         for (int i = 0; i < componentesAgregados.size(); i++) {
             Componentes get = componentesAgregados.get(i);
-            for (int j = 0; j < get.campos.size(); j++) {
-               int [] casilla = get.campos.get(i);
-               if(casilla[0] == x && casilla[1] == y)
-                   return get;
+            if("Mundo".equals(get.nombre)){
+                if(x == get.x && (y == get.y || y == get.y+1) ){
+                    return get;
+                }
+                else if(x == get.x+1 && (y == get.y || y == get.y+1)){
+                    return get;
+                }
             }
-            
+            else if("Conector".equals(get.nombre)){
+                if(x == get.x && y == get.y)
+                    return get;
+            }
+            else{
+                if("Horizontal".equals(get.orientacion)){
+                if(y == get.y && (x == get.x || x == get.x+1))
+                        return get;
+                }
+                else if(x == get.x && (y == get.y || y == get.y+1))
+                        return get;
+                    
+            }
         }
         return null;
     }
     public Componentes impactaron(int x,int y){
         if(matriz[x][y] == 1){
-            Componentes comp = buscarComponente(x,y);
+            Componentes comp = buscarComponente(x,y);   
             if(comp != null){
                 comp.casillasFuego++; 
                 return comp;

@@ -15,9 +15,12 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.geom.Line2D;
 import java.io.IOException;
+import java.io.Serializable;
 import static java.lang.Integer.parseInt;
 import static java.lang.Thread.sleep;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.shape.Line;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -34,7 +37,6 @@ public class EspacioJF extends javax.swing.JFrame {
     public String name;
     public ArrayList<String> componentesDisponibles;
     public ArrayList<ArrayList<String>> componentesColocados;
-    public ArrayList<ArrayList<String>> conectoresColocados;
     public ArrayList<JLabel> lblComponentes;
     public ArrayList<JLabel> miFuego;
     public ArrayList<Line2D.Double> lineas;
@@ -43,7 +45,9 @@ public class EspacioJF extends javax.swing.JFrame {
     public TiendaJF tienda;
     public String miArmeria;
     public DispararJF disparar;
-
+    public ObjetoGuardar lista0;
+    public ObjetoGuardar lista1;
+    public ObjetoGuardar lista2;
     /**
      * Creates new form EspacioJF
      */
@@ -56,10 +60,12 @@ public class EspacioJF extends javax.swing.JFrame {
         disparar.refPantalla = this;
         componentesColocados = new ArrayList<>();
         componentesDisponibles = new ArrayList<>();
-        conectoresColocados = new ArrayList<>();
         lblComponentes = new ArrayList<>();
         miFuego = new ArrayList<>();
         lineas = new ArrayList<>();
+        lista0 = new ObjetoGuardar();
+        lista1 = new ObjetoGuardar();
+        lista2 = new ObjetoGuardar();
         componentesDisponibles.add("Mundo");
         componentesDisponibles.add("Mercado");
         createMap(15,15);
@@ -124,6 +130,8 @@ public class EspacioJF extends javax.swing.JFrame {
         jLabel18 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -154,6 +162,7 @@ public class EspacioJF extends javax.swing.JFrame {
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panelFuegoEnemigo.setOpaque(false);
+        panelFuegoEnemigo.setLayout(null);
         jPanel2.add(panelFuegoEnemigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 490, 380));
 
         jLabel19.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
@@ -163,7 +172,7 @@ public class EspacioJF extends javax.swing.JFrame {
         jLabel19.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel2.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 300, -1));
 
-        jPanel2.add(cbbEnemigos, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, 170, 30));
+        jPanel2.add(cbbEnemigos, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 0, 170, 30));
 
         jLabel20.setForeground(new java.awt.Color(255, 255, 255));
         jLabel20.setText("    0        1        2        3       4        5       6        7        8       9       10      11     12     13     14");
@@ -262,7 +271,7 @@ public class EspacioJF extends javax.swing.JFrame {
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 10, 510, 440));
 
         panelEspacio1.setOpaque(false);
-        panelEspacio1.setLayout(new java.awt.GridLayout());
+        panelEspacio1.setLayout(new java.awt.GridLayout(1, 0));
         panelEspacio1.setLayout(new java.awt.GridLayout(15,15));
         getContentPane().add(panelEspacio1, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 70, 460, 379));
 
@@ -383,15 +392,42 @@ public class EspacioJF extends javax.swing.JFrame {
         jLabel2.setText("    0        1        2        3       4        5       6        7        8       9       10      11     12     13     14");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 45, 450, -1));
 
+        jButton2.setText("Ok");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 10, 50, 30));
+
+        jButton3.setText("jButton3");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 60, -1, -1));
+
         jLabel1.setBackground(new java.awt.Color(0, 0, 0));
         jLabel1.setOpaque(true);
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 1130, 570));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 1150, 570));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
     public void actualizarEnemigos(ArrayList <String> nombres){
         for (int i = 0; i < nombres.size(); i++) {
             if(!nombres.get(i).equals(this.name)){
+                switch(i){
+                    case 0:
+                        lista0.name = nombres.get(i);
+                        break;
+                    case 1:
+                        lista1.name = nombres.get(i);
+                        break; 
+                    case 2:
+                        lista2.name = nombres.get(i);
+                        break;                        
+                }
                 cbbEnemigos.addItem(nombres.get(i));
             }    
         }
@@ -463,8 +499,6 @@ public class EspacioJF extends javax.swing.JFrame {
         else if(nombre == "Conector"){
             setIconAux("/Media/conector.png",30,25,x,y);
             map[x][y].setEnabled(false);
-            conectoresColocados.add(datos);
-            tienda.updateCBBconector();
         }
         else{ 
             switch (nombre) {
@@ -511,7 +545,7 @@ public class EspacioJF extends javax.swing.JFrame {
     }
     public void conectar(int indexConector, int indexComp) throws InterruptedException, IOException{
         int x1,y1,x2,y2;
-        ArrayList<String> conector = conectoresColocados.get(indexConector);
+        ArrayList<String> conector = componentesColocados.get(indexConector);
         ArrayList<String> componente = componentesColocados.get(indexComp);
         x1 = parseInt(conector.get(1))*30+5;y1=parseInt(conector.get(2))*25+2;
         x2 = parseInt(componente.get(1))*30+5;y2 = parseInt(componente.get(2))*25+2;
@@ -538,7 +572,7 @@ public class EspacioJF extends javax.swing.JFrame {
         tienda.updateCBB();
         tienda.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
-    public void pintarFuego(int x,int y,int indexEnemigo) throws IOException{
+    public void pintarFuego(int x,int y) throws IOException{
         JLabel nuevo = new JLabel();
         ImageIcon icon = new ImageIcon(getClass().getResource("/Media/fuego.png"));
         icon.setImage(icon.getImage().getScaledInstance(30, 25, Image.SCALE_DEFAULT));
@@ -546,25 +580,26 @@ public class EspacioJF extends javax.swing.JFrame {
         panelFuego.add(nuevo);
         nuevo.setBounds(/*x*/5+(30*x),/*y*/2+(25*y), /*ancho*/30,/*alto*/ 25);
         miFuego.add(nuevo);
-        refCliente.hiloCliente.writer.writeInt(7);
-        refCliente.hiloCliente.writer.writeInt(indexEnemigo);
-        refCliente.hiloCliente.objWriter.writeObject(miFuego);
     }
-    public void pintarEnemigo(ArrayList<JLabel> labels){
-        for (int i = 0; i < labels.size(); i++) {
-            System.out.println("label array size "+labels.size());
-            JLabel get = labels.get(i);
-            int x = get.getX()/30-5;
-            int y = get.getY()/25-2;
-            JLabel nuevo = new JLabel();
-            ImageIcon icon = new ImageIcon(getClass().getResource("/Media/fuego.png"));
-            icon.setImage(icon.getImage().getScaledInstance(30, 25, Image.SCALE_DEFAULT));
-            nuevo.setIcon(icon);
-            panelFuegoEnemigo.add(nuevo);
-            nuevo.setBounds(/*x*/5+(30*0),/*y*/2+(25*0), /*ancho*/30,/*alto*/ 25);   
+    public void pintarEnemigo(int x,int y){
+        JLabel nuevo = new JLabel();
+        ImageIcon icon = new ImageIcon(getClass().getResource("/Media/fuego.png"));
+        icon.setImage(icon.getImage().getScaledInstance(30, 25, Image.SCALE_DEFAULT));
+        nuevo.setIcon(icon);
+        panelFuegoEnemigo.add(nuevo);
+        nuevo.setBounds(/*x*/5+(30*x),/*y*/2+(25*y), /*ancho*/30,/*alto*/ 25);
+        String nombre = (String) cbbEnemigos.getSelectedItem();
+        if (nombre != ""){
+            if(nombre == lista0.name){
+                lista0.agregarNum(x, y);
+            }
+            else if(lista1.name == nombre){
+                lista1.agregarNum(x, y);
+            }
+            else if(lista2.name == nombre){
+                lista2.agregarNum(x, y);
+            }
         }
-
- 
     }
     public void disparo(int x,int y,String tipo) throws IOException{
         String nombre = (String) cbbEnemigos.getSelectedItem();
@@ -579,13 +614,53 @@ public class EspacioJF extends javax.swing.JFrame {
     }
     private void btnDispararActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDispararActionPerformed
         // TODO add your handling code here:
-        if (miArmeria != ""){
+        if (!"".equals(miArmeria)){
         disparar.tipo = miArmeria;
         disparar.jButton1.setEnabled(true);
         disparar.lblShoot.setText("Disparar con " + miArmeria);
         disparar.setVisible(true);
         }
     }//GEN-LAST:event_btnDispararActionPerformed
+    public void actualizarEsta(ObjetoGuardar esta){
+        for (int i = 0; i < esta.lista.size(); i++) {
+            int [] get = esta.lista.get(i);
+            int x = get[0];
+            int y = get[1];
+            JLabel nuevo = new JLabel();
+            ImageIcon icon = new ImageIcon(getClass().getResource("/Media/fuego.png"));
+            icon.setImage(icon.getImage().getScaledInstance(30, 25, Image.SCALE_DEFAULT));
+            nuevo.setIcon(icon);
+            panelFuegoEnemigo.add(nuevo);
+            nuevo.setBounds(/*x*/5+(30*x),/*y*/2+(25*y), /*ancho*/30,/*alto*/ 25);
+            }
+    }
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        if(this.panelFuegoEnemigo.getComponents().length >0){
+            panelFuegoEnemigo.removeAll();
+            panelFuegoEnemigo.revalidate();
+            panelFuegoEnemigo.repaint();
+        }
+        String nombre = (String) cbbEnemigos.getSelectedItem();
+        if (nombre != null){
+            if(nombre == lista0.name && lista0.lista.size()>0){
+                actualizarEsta(lista0);
+            }
+            else if(lista1.name == nombre && lista1.lista.size()>0){
+                actualizarEsta(lista1);
+            }
+            else if(lista2.name == nombre && lista2.lista.size()>0){
+                actualizarEsta(lista2);
+            }
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        panelFuegoEnemigo.removeAll();
+        panelFuegoEnemigo.revalidate();
+        panelFuegoEnemigo.repaint();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -641,6 +716,8 @@ public class EspacioJF extends javax.swing.JFrame {
     private javax.swing.JButton btnDisparar;
     private javax.swing.JComboBox<String> cbbEnemigos;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
