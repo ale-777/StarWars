@@ -10,5 +10,8 @@ package Componentes;
  * @author Alejandra G
  */
 public class Nave extends Componentes{
-    
+   /* public Nave(String nombre,int valor, int [] dimensiones){
+        super(nombre, valor,dimensiones);
+    }*/
+
 }

@@ -5,19 +5,86 @@
  */
 package starwars;
 
+import Componentes.Componentes;
+import Componentes.Mercado;
+import Componentes.Mundo;
+import Grafo.Grafo;
+import java.util.ArrayList;
+import javax.swing.JPanel;
+
 /**
  *
  * @author Alejandra G
  */
 public class Jugador {
-    public String name;
-    public Jugador(){
+    public String nombre;
+    public int dinero;
+    public int hierro;
+    public Grafo grafo; 
+    public int [][] matriz;
+    public ArrayList<Componentes> componentesDisponibles;
+    public ArrayList<Componentes> componentesAgregados;
+    public ArrayList<Componentes> conectoresAgregados;
+   
+    public Jugador(String nombre){
+        this.nombre = nombre;
+        dinero = 4000;
+        hierro = 0;
+        componentesDisponibles = new ArrayList<>();
+        componentesAgregados = new ArrayList<>();
+        conectoresAgregados = new ArrayList<>();
+        grafo = new Grafo();
+        matriz = new int[15][15];
+        crearMatriz();
     }
-    public Jugador(String name){
-        this.name = name;
-        startJugador();
+    public void crearMatriz(){   
+        for (int i = 0; i < 15; i++) {
+          for (int j = 0; j < 15 ; j++) {
+            matriz [i][j] = 0;    
+          }
+      }
     }
-    public void startJugador(){
-        
+    public void ocuparEspacio(String Nombre,int x,int y,String lado){
+        if (nombre == "Mundo"){
+            matriz[x][y] = 1;
+            matriz[x+1][y]= 1;
+            matriz[x][y+1]= 1;
+            matriz[x+1][y+1]= 1;
+        }
+        else if(nombre == "Conector"){
+            matriz[x][y]= 1;
+        }
+        else{ 
+            if(lado == "Horizontal"){
+             matriz[x][y]= 1;
+             matriz[x+1][y]= 1;
+            }
+            else if (lado == "Vertical"){
+                matriz[x][y]= 1;
+                matriz[x][y+1]= 1;
+            }
+    }
+    }
+    public Componentes buscarComponente(int x,int y){
+        for (int i = 0; i < componentesAgregados.size(); i++) {
+            Componentes get = componentesAgregados.get(i);
+            for (int j = 0; j < get.campos.size(); j++) {
+               int [] casilla = get.campos.get(i);
+               if(casilla[0] == x && casilla[1] == y)
+                   return get;
+            }
+            
+        }
+        return null;
+    }
+    public Componentes impactaron(int x,int y){
+        if(matriz[x][y] == 1){
+            Componentes comp = buscarComponente(x,y);
+            if(comp != null){
+                comp.casillasFuego++; 
+                return comp;
+            }
+        }
+        return null;
     }
 }

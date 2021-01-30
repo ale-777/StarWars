@@ -5,6 +5,10 @@
  */
 package Servidor;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Alejandra G
@@ -74,6 +78,11 @@ public class PantallaServidor extends javax.swing.JFrame {
         // TODO add your handling code here:
         server.iniciarJuego();
         this.setVisible(false);
+        try {
+            server.empezarPartida();
+        } catch (IOException ex) {
+            Logger.getLogger(PantallaServidor.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
     public void addMensaje(String msj)
     {

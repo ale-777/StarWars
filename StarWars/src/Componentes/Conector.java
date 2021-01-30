@@ -5,10 +5,25 @@
  */
 package Componentes;
 
+import javax.swing.JLabel;
+
 /**
  *
  * @author Alejandra G
  */
 public class Conector extends Componentes{
-    
+    public Conector(String nombre,int valor, int ancho,int largo,int x,int y, JLabel label){
+        super(nombre, valor,ancho,largo,x,y,label);
+        campos();
+    }
+    @Override
+    public void campos(){
+        this.campos.add(new int []{x,y});
+    }
+    @Override
+    public boolean enFuego(){
+        if(this.casillasFuego >0)
+            return true;
+        return false;
+    };
 }

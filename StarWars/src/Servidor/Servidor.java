@@ -5,9 +5,11 @@
  */
 package Servidor;
 
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import javax.swing.JLabel;
 import starwars.JuegoSW;
 
 /**
@@ -25,7 +27,10 @@ public class Servidor {
     private boolean partidaIniciada = false;
 
     public Servidor(PantallaServidor refPantalla) {
+        this.juego = new JuegoSW();
+        juego.server = this;
         this.refPantalla = refPantalla;
+        nombres = new ArrayList<>();
         conexiones = new ArrayList<ThreadServidor>();
         this.refPantalla.server = this;
     }
@@ -34,7 +39,7 @@ public class Servidor {
         this.partidaIniciada = true;
     }
     public void iniciarJuego(){
-        juego = new JuegoSW(conexiones.size(),nombres);
+        
     }
     
     public void stopserver(){
@@ -51,7 +56,26 @@ public class Servidor {
     public String getTurno(){
         return conexiones.get(turno).nombre;
     }
-    
+    public void empezarPartida() throws IOException{
+        for (int i = 0; i < conexiones.size(); i++) {
+        ThreadServidor current = conexiones.get(i);
+        current.writer.writeInt(4);
+        current.objWriter.writeObject(nombres);
+    }
+    }
+    public void setFire(int indexEnemigo,int yo,int x,int y) throws IOException{
+        ThreadServidor enemigo = conexiones.get(indexEnemigo);
+        ThreadServidor myself = conexiones.get(yo);
+        enemigo.writer.writeInt(5);
+        enemigo.writer.writeInt(x);
+        enemigo.writer.writeInt(y);
+        enemigo.writer.writeInt(yo);
+    }
+    public void mandarArrayFuego(int indice,ArrayList<JLabel> labels) throws IOException{
+        ThreadServidor current = conexiones.get(indice);
+        current.writer.writeInt(6);
+        current.objWriter.writeObject(labels);
+    }
     public void runServer(){
         int contadorDeConexiones = 0;
         try{
@@ -61,9 +85,8 @@ public class Servidor {
                 Socket nuevaConexion = srv.accept();
                 if (!partidaIniciada){ 
                     contadorDeConexiones++;
+                    
                     refPantalla.addMensaje(":Conexión " + contadorDeConexiones + "aceptada");
-
-                    // nuevo thread
                     ThreadServidor newThread = new ThreadServidor(nuevaConexion, this);
                     conexiones.add(newThread);
                     newThread.start();

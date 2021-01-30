@@ -5,11 +5,25 @@
  */
 package Cliente;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.geom.Line2D;
+import java.io.IOException;
+import static java.lang.Integer.parseInt;
+import static java.lang.Thread.sleep;
+import java.util.ArrayList;
+import javafx.scene.shape.Line;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+;
 
 /**
  *
@@ -18,14 +32,44 @@ import javax.swing.JPanel;
 public class EspacioJF extends javax.swing.JFrame {
     public Cliente refCliente;
     public String name;
+    public ArrayList<String> componentesDisponibles;
+    public ArrayList<ArrayList<String>> componentesColocados;
+    public ArrayList<ArrayList<String>> conectoresColocados;
+    public ArrayList<JLabel> lblComponentes;
+    public ArrayList<JLabel> miFuego;
+    public ArrayList<Line2D.Double> lineas;
+    JPanel [ ][ ] map;
+    JPanel [ ][ ] map1;
+    public TiendaJF tienda;
+    public String miArmeria;
+    public DispararJF disparar;
+
     /**
      * Creates new form EspacioJF
      */
     public EspacioJF() {
         initComponents();
+        Graphics g;
+        tienda = new TiendaJF();
+        tienda.refPantalla = this;
+        disparar = new DispararJF();
+        disparar.refPantalla = this;
+        componentesColocados = new ArrayList<>();
+        componentesDisponibles = new ArrayList<>();
+        conectoresColocados = new ArrayList<>();
+        lblComponentes = new ArrayList<>();
+        miFuego = new ArrayList<>();
+        lineas = new ArrayList<>();
+        componentesDisponibles.add("Mundo");
+        componentesDisponibles.add("Mercado");
         createMap(15,15);
-    }
 
+        
+        panelAux.setLayout(null);
+        panelAux.setOpaque(false);
+        jPanel1.setOpaque(false);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -35,35 +79,519 @@ public class EspacioJF extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel2 = new javax.swing.JLabel();
+        miPanel = new javax.swing.JPanel();
+        panelFuego = new javax.swing.JPanel();
+        panelAux = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
         panelEspacio = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        panelFuegoEnemigo = new javax.swing.JPanel();
+        jLabel19 = new javax.swing.JLabel();
+        cbbEnemigos = new javax.swing.JComboBox<>();
+        jLabel20 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        jLabel26 = new javax.swing.JLabel();
+        jLabel27 = new javax.swing.JLabel();
+        jLabel28 = new javax.swing.JLabel();
+        jLabel29 = new javax.swing.JLabel();
+        jLabel30 = new javax.swing.JLabel();
+        jLabel31 = new javax.swing.JLabel();
+        jLabel32 = new javax.swing.JLabel();
+        jLabel33 = new javax.swing.JLabel();
+        jLabel34 = new javax.swing.JLabel();
+        jLabel35 = new javax.swing.JLabel();
+        panelEspacio1 = new javax.swing.JPanel();
+        btnDisparar = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("MI PLANETA");
-        jLabel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, 460, -1));
+        miPanel.setOpaque(false);
+        miPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        panelFuego.setOpaque(false);
+        panelFuego.setLayout(null);
+        panelEspacio.setLayout(new java.awt.GridLayout(15,15));
+        miPanel.add(panelFuego, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 470, 379));
+
+        panelAux.setLayout(null);
+        panelEspacio.setLayout(new java.awt.GridLayout(15,15));
+        miPanel.add(panelAux, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 470, 379));
+
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        miPanel.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 470, 380));
+
+        getContentPane().add(miPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 65, 520, 380));
 
         panelEspacio.setLayout(new java.awt.GridLayout(1, 0));
         panelEspacio.setLayout(new java.awt.GridLayout(15,15));
-        getContentPane().add(panelEspacio, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, 460, 379));
+        getContentPane().add(panelEspacio, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 65, 460, 379));
+
+        jPanel2.setOpaque(false);
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        panelFuegoEnemigo.setOpaque(false);
+        jPanel2.add(panelFuegoEnemigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 490, 380));
+
+        jLabel19.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        jLabel19.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel19.setText("Enemigo");
+        jLabel19.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel2.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 300, -1));
+
+        jPanel2.add(cbbEnemigos, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, 170, 30));
+
+        jLabel20.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel20.setText("    0        1        2        3       4        5       6        7        8       9       10      11     12     13     14");
+        jPanel2.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 450, -1));
+
+        jLabel21.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel21.setText("0 ");
+        jLabel21.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jPanel2.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 65, 20, 20));
+
+        jLabel22.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel22.setText("14");
+        jLabel22.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jPanel2.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 415, 20, 20));
+
+        jLabel23.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel23.setText("1");
+        jLabel23.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jPanel2.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 20, 20));
+
+        jLabel24.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel24.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel24.setText("2");
+        jLabel24.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jPanel2.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 115, 20, 20));
+
+        jLabel25.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel25.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel25.setText("3");
+        jLabel25.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jPanel2.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 20, 20));
+
+        jLabel26.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel26.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel26.setText("4");
+        jLabel26.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jPanel2.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 165, 20, 20));
+
+        jLabel27.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel27.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel27.setText("5");
+        jLabel27.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jPanel2.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 190, 20, 20));
+
+        jLabel28.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel28.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel28.setText("6");
+        jLabel28.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jPanel2.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 215, 20, 20));
+
+        jLabel29.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel29.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel29.setText("7");
+        jLabel29.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jPanel2.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 20, 20));
+
+        jLabel30.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel30.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel30.setText("8");
+        jLabel30.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jPanel2.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 265, 20, 20));
+
+        jLabel31.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel31.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel31.setText("9");
+        jLabel31.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jPanel2.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 290, 20, 20));
+
+        jLabel32.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel32.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel32.setText("10");
+        jLabel32.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jPanel2.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 315, 20, 20));
+
+        jLabel33.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel33.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel33.setText("11");
+        jLabel33.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jPanel2.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 340, 20, 20));
+
+        jLabel34.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel34.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel34.setText("12");
+        jLabel34.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jPanel2.add(jLabel34, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 365, 20, 20));
+
+        jLabel35.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel35.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel35.setText("13");
+        jLabel35.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jPanel2.add(jLabel35, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 390, 20, 20));
+
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 10, 510, 440));
+
+        panelEspacio1.setOpaque(false);
+        panelEspacio1.setLayout(new java.awt.GridLayout());
+        panelEspacio1.setLayout(new java.awt.GridLayout(15,15));
+        getContentPane().add(panelEspacio1, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 70, 460, 379));
+
+        btnDisparar.setText("Disparar");
+        btnDisparar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDispararActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnDisparar, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 460, 90, 40));
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("MI PLANETA");
+        jLabel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 460, -1));
+
+        jButton1.setText("TIENDA");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 460, -1, 40));
+
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setText("0 ");
+        jLabel5.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 20, 20));
+
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("1");
+        jLabel4.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 95, 20, 20));
+
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setText("2");
+        jLabel7.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 20, 20));
+
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel8.setText("3");
+        jLabel8.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 145, 20, 20));
+
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel9.setText("4");
+        jLabel9.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 20, 20));
+
+        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel10.setText("5");
+        jLabel10.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 195, 20, 20));
+
+        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel11.setText("6");
+        jLabel11.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 20, 20));
+
+        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel12.setText("7");
+        jLabel12.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 245, 20, 20));
+
+        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel13.setText("8");
+        jLabel13.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 270, 20, 20));
+
+        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel14.setText("9");
+        jLabel14.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        getContentPane().add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 295, 20, 20));
+
+        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel15.setText("10");
+        jLabel15.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        getContentPane().add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 320, 20, 20));
+
+        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel16.setText("11");
+        jLabel16.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        getContentPane().add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 345, 20, 20));
+
+        jLabel17.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel17.setText("12");
+        jLabel17.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        getContentPane().add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 370, 20, 20));
+
+        jLabel18.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel18.setText("13");
+        jLabel18.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        getContentPane().add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 395, 20, 20));
+
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel6.setText("14");
+        jLabel6.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 420, 20, 20));
+
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("    0        1        2        3       4        5       6        7        8       9       10      11     12     13     14");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 45, 450, -1));
 
         jLabel1.setBackground(new java.awt.Color(0, 0, 0));
         jLabel1.setOpaque(true);
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, 6, 1230, 450));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 1130, 570));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    public void actualizarEnemigos(ArrayList <String> nombres){
+        for (int i = 0; i < nombres.size(); i++) {
+            if(!nombres.get(i).equals(this.name)){
+                cbbEnemigos.addItem(nombres.get(i));
+            }    
+        }
+        cbbEnemigos.setSelectedIndex(-1);
+    }
+    public void setIconAux(String url,int ancho,int alto,int x,int y){
+        JLabel nuevo = new JLabel();
+        ImageIcon icon = new ImageIcon(getClass().getResource(url));
+        icon.setImage(icon.getImage().getScaledInstance(ancho, alto, Image.SCALE_DEFAULT));
+        nuevo.setIcon(icon);
+        panelAux.add(nuevo);
+        nuevo.setBounds(/*x*/5+(30*x),/*y*/2+(25*y), /*ancho*/ancho,/*alto*/ alto);
+        lblComponentes.add(nuevo);
+    }
+    public void restarDinero(int costo) throws IOException{
+        refCliente.hiloCliente.writer.writeInt(3);
+        refCliente.hiloCliente.writer.writeInt(costo);
+    }
+    public void comproComp(String nombre,int costo) throws IOException{
+        componentesDisponibles.add(nombre);
+        restarDinero(costo);
+        tienda.updateCBB();
+    }
+    public boolean casillaValida(String componente,int x,int y,String orientacion){
+        boolean campos = false;
+        if("Mundo".equals(componente)){
+            if(x<14 && y<14){
+                campos = map[x][y].isEnabled() && map[x+1][y].isEnabled() && map[x][y+1].isEnabled() && map[x+1][y+1].isEnabled();
+            }
+            else return false;
+        }
+        else if("Conector".equals(componente)){
+            if(x<15 && y<15){
+                campos = map[x][y].isEnabled();
+            }
+            else return false;
+        }
+        else{
+            if ("Horizontal".equals(orientacion)){
+                if(x<14 && y<15)
+                    campos = map[x][y].isEnabled() && map[x+1][y].isEnabled();
+                else return false;
+            }
+            else if ("Vertical".equals(orientacion)){
+                if(x<15 && y<14)
+                    campos = map[x][y].isEnabled() && map[x][y+1].isEnabled();
+                else return false;
+            }
+        }
+        return campos;
+    }
+    public void escribirNuevoComp(ArrayList<String> datos) throws IOException{
+        refCliente.hiloCliente.writer.writeInt(4);
+        refCliente.hiloCliente.objWriter.writeObject(datos);
+        refCliente.hiloCliente.objWriter.writeObject(lblComponentes.get(lblComponentes.size()-1));
+    }
+    public void colocarComponente(ArrayList<String> datos) throws IOException{
+        String nombre = datos.get(0);
+        int x = parseInt(datos.get(1));
+        int y = parseInt(datos.get(2));
+        String lado = datos.get(3);
+        if (nombre == "Mundo"){
+            setIconAux("/Media/marte.png",30*2,25*2,x,y);
+            map[x][y].setEnabled(false);
+            map[x+1][y].setEnabled(false);
+            map[x][y+1].setEnabled(false);
+            map[x+1][y+1].setEnabled(false);
+        }
+        else if(nombre == "Conector"){
+            setIconAux("/Media/conector.png",30,25,x,y);
+            map[x][y].setEnabled(false);
+            conectoresColocados.add(datos);
+            tienda.updateCBBconector();
+        }
+        else{ 
+            switch (nombre) {
+                case "Mercado":
+                    if(lado == "Horizontal") setIconAux("/Media/shopH.png",30*2,25,x,y);
+                    else if(lado == "Vertical")setIconAux("/Media/shopV.png",30,25*2,x,y);
+                    break;
+                case "Mina":
+                    if(lado == "Horizontal") setIconAux("/Media/minaH.png",30*2,25,x,y);
+                    else if(lado == "Vertical")setIconAux("/Media/minaV.png",30,25*2,x,y);
+                    break;
+                case "Templo":
+                    if(lado == "Horizontal") setIconAux("/Media/temploH.png",30*2,25,x,y);  
+                    else if(lado == "Vertical")setIconAux("/Media/temploV.png",30,25*2,x,y);
+                    break;
+                default:
+                    miArmeria = nombre;
+                    if(lado == "Horizontal") setIconAux("/Media/armeriaH.png",30*2,25,x,y);
+                    else if(lado == "Vertical")setIconAux("/Media/armeriaV.png",30,25*2,x,y);
+                    break;
+            }
+            if(lado == "Horizontal"){
+             map[x][y].setEnabled(false);
+             map[x+1][y].setEnabled(false);
+            }
+            else if (lado == "Vertical"){
+                map[x][y].setEnabled(false);
+                map[x][y+1].setEnabled(false);
+            }
+        }
+            
+        componentesColocados.add(datos);
+        tienda.updateCBBcolocados();
+        escribirNuevoComp(datos);
+    }
+    public void pintar() throws InterruptedException, IOException{
+        Graphics g = jPanel1.getGraphics();
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setColor(Color.yellow);
+        g2.setStroke(new BasicStroke(1));
+        Line2D.Double linea = lineas.get(lineas.size()-1);
+        System.out.println((int)linea.x1+" "+ (int)linea.y1+" "+(int)linea.x2+" "+ (int)linea.y2);
+        g2.drawLine((int)linea.x2, (int)linea.y2, (int)linea.x1, (int)linea.y1);        
+    }
+    public void conectar(int indexConector, int indexComp) throws InterruptedException, IOException{
+        int x1,y1,x2,y2;
+        ArrayList<String> conector = conectoresColocados.get(indexConector);
+        ArrayList<String> componente = componentesColocados.get(indexComp);
+        x1 = parseInt(conector.get(1))*30+5;y1=parseInt(conector.get(2))*25+2;
+        x2 = parseInt(componente.get(1))*30+5;y2 = parseInt(componente.get(2))*25+2;
+        Line2D.Double linea = new Line2D.Double(x1,y1,x2,y2);
+        lineas.add(linea);
+        pintar();
+        refCliente.hiloCliente.writer.writeInt(5);
+        refCliente.hiloCliente.writer.writeInt(indexConector);
+        refCliente.hiloCliente.writer.writeInt(indexComp);
+        refCliente.hiloCliente.objWriter.writeObject(linea);
+        
+    }
+    public boolean buscarPorNombre(String nombreComp){
+        for (int i = 0; i < componentesColocados.size(); i++) {
+            ArrayList<String> get = componentesColocados.get(i);
+            if (get.get(i) == nombreComp){
+                return true;
+            }      
+        }
+        return false;
+    }
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        tienda.updateCBB();
+        tienda.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+    public void pintarFuego(int x,int y,int indexEnemigo) throws IOException{
+        JLabel nuevo = new JLabel();
+        ImageIcon icon = new ImageIcon(getClass().getResource("/Media/fuego.png"));
+        icon.setImage(icon.getImage().getScaledInstance(30, 25, Image.SCALE_DEFAULT));
+        nuevo.setIcon(icon);
+        panelFuego.add(nuevo);
+        nuevo.setBounds(/*x*/5+(30*x),/*y*/2+(25*y), /*ancho*/30,/*alto*/ 25);
+        miFuego.add(nuevo);
+        refCliente.hiloCliente.writer.writeInt(7);
+        refCliente.hiloCliente.writer.writeInt(indexEnemigo);
+        refCliente.hiloCliente.objWriter.writeObject(miFuego);
+    }
+    public void pintarEnemigo(ArrayList<JLabel> labels){
+        for (int i = 0; i < labels.size(); i++) {
+            System.out.println("label array size "+labels.size());
+            JLabel get = labels.get(i);
+            int x = get.getX()/30-5;
+            int y = get.getY()/25-2;
+            JLabel nuevo = new JLabel();
+            ImageIcon icon = new ImageIcon(getClass().getResource("/Media/fuego.png"));
+            icon.setImage(icon.getImage().getScaledInstance(30, 25, Image.SCALE_DEFAULT));
+            nuevo.setIcon(icon);
+            panelFuegoEnemigo.add(nuevo);
+            nuevo.setBounds(/*x*/5+(30*0),/*y*/2+(25*0), /*ancho*/30,/*alto*/ 25);   
+        }
+
+ 
+    }
+    public void disparo(int x,int y,String tipo) throws IOException{
+        String nombre = (String) cbbEnemigos.getSelectedItem();
+        if (nombre != null){
+        refCliente.hiloCliente.writer.writeInt(6);
+        refCliente.hiloCliente.writer.writeUTF(nombre);
+        refCliente.hiloCliente.writer.writeUTF(tipo);
+        refCliente.hiloCliente.writer.writeInt(x);
+        refCliente.hiloCliente.writer.writeInt(y);
+        }
+        
+    }
+    private void btnDispararActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDispararActionPerformed
+        // TODO add your handling code here:
+        if (miArmeria != ""){
+        disparar.tipo = miArmeria;
+        disparar.jButton1.setEnabled(true);
+        disparar.lblShoot.setText("Disparar con " + miArmeria);
+        disparar.setVisible(true);
+        }
+    }//GEN-LAST:event_btnDispararActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public void ponerJF(JPanel otroJP){
+
+   public void ponerJF(JPanel otroJP){
         this.add(otroJP);
         otroJP.setLocation(526, 10);
     }
@@ -75,30 +603,86 @@ public class EspacioJF extends javax.swing.JFrame {
         //int maxX = 15;
         //int maxY = 15;
         panelEspacio.setOpaque(false);
-        JPanel [ ][ ] map = new JPanel [maxX][maxY];
+       map = new JPanel [maxX][maxY];
 
         for (int i = 0; i < maxX; i++) {
 
           for (int j = 0; j < maxY ; j++) {
             JPanel panel = new JPanel();
             map [i][j] = panel;
-            JPanel panelci = new JPanel();
-            panelci.setSize(5, 5);
-            panelci.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
+            panel.setSize(5, 5);
+            panel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
             //panelci.setBackground(Color.blue);
-            panelci.setOpaque(false);
-            panelEspacio.add(panelci);
+            panel.setOpaque(false);
+            panelEspacio.add(panel);
+              
+          }
+      }
+       panelEspacio1.setOpaque(false);
+       map1 = new JPanel [maxX][maxY];
+
+        for (int i = 0; i < maxX; i++) {
+
+          for (int j = 0; j < maxY ; j++) {
+            JPanel panel = new JPanel();
+            map1 [i][j] = panel;
+            panel.setSize(5, 5);
+            panel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
+            //panelci.setBackground(Color.blue);
+            panel.setOpaque(false);
+            panelEspacio1.add(panel);
               
           }
       }
         
      }
 
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDisparar;
+    private javax.swing.JComboBox<String> cbbEnemigos;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel miPanel;
+    public javax.swing.JPanel panelAux;
     public javax.swing.JPanel panelEspacio;
+    public javax.swing.JPanel panelEspacio1;
+    public javax.swing.JPanel panelFuego;
+    private javax.swing.JPanel panelFuegoEnemigo;
     // End of variables declaration//GEN-END:variables
 }
