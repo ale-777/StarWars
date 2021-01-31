@@ -103,8 +103,54 @@ public class JuegoSW {
         current.grafo.addConexion(indexConector, indexComp,linea);
     }
     
-    public void borrarArista(Jugador enemigo, Jugador yo,Componentes comp,int x,int y){
-        enemigo.grafo.borrarNodo(comp);
+    public void impactoAux(String nombreEnemigo,int indiceMio,int x,int y) throws IOException{
+        Jugador enemigo = buscarJugador(nombreEnemigo);
+        Jugador yo = jugadores.get(indiceMio);
+        if(enemigo != null && yo != null){
+            Componentes comp = enemigo.impactaron(x, y);
+            if (comp != null){
+                server.setFire(jugadores.indexOf(enemigo),jugadores.indexOf(yo),x,y);
+                if(comp.enFuego()){
+                    System.out.println("Esta en fuego");
+                    enemigo.grafo.borrarNodo(nombreEnemigo,indiceMio,comp);
+                }
+    }
+        }
+    }
+    public void armaMultiShot(String nombreEnemigo,int indiceMio,String tipo) throws IOException{
+        for (int i = 0; i < 3; i++) {
+            int x = (int) (Math.random() * 15);
+            int y = (int) (Math.random() * 15);
+            impactoAux(nombreEnemigo, indiceMio,x,y);
+        }
+         
+    }
+    public void armaBomba(String nombreEnemigo,int indiceMio,int x,int y) throws IOException{
+        int caso = (int) (Math.random() * 5);
+        switch(caso){
+            case 0:
+                if(x < 14){
+                    impactoAux(nombreEnemigo, indiceMio,x+1,y);
+                    break;
+                }
+            case 1:
+                if(y < 14){
+                    impactoAux(nombreEnemigo, indiceMio,x,y+1);
+                    break;
+                }
+            case 2:
+                if(x > 0){
+                    impactoAux(nombreEnemigo, indiceMio,x-1,y);
+                    break;
+                }
+            case 3:
+                if(y > 0){
+                    impactoAux(nombreEnemigo, indiceMio,x,y-1);
+                    break;
+                }
+            break;              
+        }
+        
     }
     public void impacto(String nombreEnemigo,int indiceMio,int x,int y,String tipo) throws IOException{
         Jugador enemigo = buscarJugador(nombreEnemigo);
@@ -115,7 +161,13 @@ public class JuegoSW {
                 server.setFire(jugadores.indexOf(enemigo),jugadores.indexOf(yo),x,y);
                 if(comp.enFuego()){
                     System.out.println("Esta en fuego");
-                    borrarArista(enemigo,yo,comp,x,y);
+                    enemigo.grafo.borrarNodo(nombreEnemigo,indiceMio,comp);
+                }
+                if (tipo.equals("Multi-Shot")){
+                    armaMultiShot(nombreEnemigo,indiceMio,tipo);
+                }
+                else if (tipo.equals("Bomba")){
+                    armaBomba(nombreEnemigo,indiceMio,x,y);
                 }
             }
         }

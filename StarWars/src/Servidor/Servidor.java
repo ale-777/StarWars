@@ -96,6 +96,9 @@ public class Servidor {
         myself.writer.writeInt(x);
         myself.writer.writeInt(y);
     }
+    public void pintarDesconexo(String enemigo,int yo, ArrayList<JLabel> lbls){
+        
+    }
     public void mandarArrayFuego(int indice,int x,int y) throws IOException{
         ThreadServidor current = conexiones.get(indice);
         current.writer.writeInt(6);

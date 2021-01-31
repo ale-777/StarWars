@@ -123,8 +123,13 @@ public class DispararJF extends javax.swing.JFrame {
             // TODO add your handling code here:
             int x = (int) spnX.getValue();
             int y = (int) spnY.getValue();
-            if(!"Combo-Shot".equals(tipo)){
+            if(!"Combo-Shot".equals(tipo) || !"Bomba".equals(tipo)){
                 refPantalla.disparo(x, y, tipo);
+                jButton1.setEnabled(false);
+            }
+            else if("Bomba".equals(tipo)){
+                contadorDisparos++;
+                if (contadorDisparos >2)
                 jButton1.setEnabled(false);
             }
             else{

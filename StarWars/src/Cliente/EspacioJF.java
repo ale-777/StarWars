@@ -85,10 +85,9 @@ public class EspacioJF extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        miPanel = new javax.swing.JPanel();
         panelFuego = new javax.swing.JPanel();
+        miPanel = new javax.swing.JPanel();
         panelAux = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
         panelEspacio = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         panelFuegoEnemigo = new javax.swing.JPanel();
@@ -133,24 +132,22 @@ public class EspacioJF extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        miPanel.setOpaque(false);
-        miPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
         panelFuego.setOpaque(false);
         panelFuego.setLayout(null);
         panelEspacio.setLayout(new java.awt.GridLayout(15,15));
-        miPanel.add(panelFuego, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 470, 379));
+        getContentPane().add(panelFuego, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 65, 470, 379));
+
+        miPanel.setOpaque(false);
+        miPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panelAux.setLayout(null);
         panelEspacio.setLayout(new java.awt.GridLayout(15,15));
         miPanel.add(panelAux, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 470, 379));
-
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        miPanel.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 470, 380));
 
         getContentPane().add(miPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 65, 520, 380));
 
@@ -411,6 +408,11 @@ public class EspacioJF extends javax.swing.JFrame {
         jLabel1.setBackground(new java.awt.Color(0, 0, 0));
         jLabel1.setOpaque(true);
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 1150, 570));
+
+        jPanel1.setFocusable(false);
+        jPanel1.setRequestFocusEnabled(false);
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 65, 470, 380));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
