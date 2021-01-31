@@ -31,8 +31,11 @@ public class JuegoSW {
     public JuegoSW (){
         jugadores = new ArrayList<>();
     }
-    public void addJugador(String nombre){
-        jugadores.add(new Jugador(nombre));
+    public void addJugador(String nombre) throws IOException{
+        Jugador tmp = new Jugador(nombre);
+        jugadores.add(tmp);
+        int [] indice = tmp.crearHoyos();
+        server.mandarHoyos(jugadores.indexOf(tmp), indice);
     }
     public Jugador buscarJugador(String name){
         for (int i = 0; i < jugadores.size(); i++) {
@@ -109,13 +112,29 @@ public class JuegoSW {
         if(enemigo != null && yo != null){
             Componentes comp = enemigo.impactaron(x, y);
             if (comp != null){
+                if(comp.nombre.equals("Hoyo")){
+                    tiroHoyo(enemigo,yo);
+                    return;
+                }
                 server.setFire(jugadores.indexOf(enemigo),jugadores.indexOf(yo),x,y);
                 if(comp.enFuego()){
-                    System.out.println("Esta en fuego");
-                    enemigo.grafo.borrarNodo(nombreEnemigo,indiceMio,comp);
+                    if(enemigo.grafo.mundo.comp.equals(comp)){
+                        ArrayList<JLabel> lbls = getAllLabels(jugadores.indexOf(enemigo));
+                        ArrayList<ArrayList<String>> names = getNombres(jugadores.indexOf(enemigo),lbls);
+                        server.disconexion(nombreEnemigo,indiceMio,lbls,names);
+                    }
+                    else{
+                        System.out.println("Esta en fuego");
+                    
+                    ArrayList<JLabel> lbls = enemigo.grafo.borrarNodo(nombreEnemigo,indiceMio,comp);
+                    if(lbls != null && lbls.size()>0){
+                        ArrayList<ArrayList<String>> names = getNombres(jugadores.indexOf(enemigo),lbls);
+                        server.disconexion(nombreEnemigo,indiceMio,lbls,names);
+                    }
+                    }
                 }
-    }
         }
+    }
     }
     public void armaMultiShot(String nombreEnemigo,int indiceMio,String tipo) throws IOException{
         for (int i = 0; i < 3; i++) {
@@ -152,16 +171,96 @@ public class JuegoSW {
         }
         
     }
+    public ArrayList<ArrayList<String>> getNombres(int index,ArrayList<JLabel> labels){
+        ArrayList<ArrayList<String>> nombres = new ArrayList<>();
+        Jugador current = jugadores.get(index);
+        for (int i = 0; i < labels.size(); i++) {
+            JLabel get = labels.get(i);
+            for (int j = 0; j < current.componentesAgregados.size(); j++) {
+                Componentes get2 = current.componentesAgregados.get(j);
+                if(get2.label == get){
+                    ArrayList<String> data = new ArrayList<>();
+                    data.add(get2.nombre);
+                    data.add(get2.orientacion);
+                    nombres.add(data);
+                }
+            }
+        }
+        return nombres;
+    }
+    public ArrayList<JLabel> getAllLabels(int index){
+        ArrayList<JLabel> nueva = new ArrayList<>();
+        Jugador current = jugadores.get(index);
+        for (int i = 0; i < current.componentesAgregados.size(); i++) {
+            Componentes get = current.componentesAgregados.get(i);
+            nueva.add(get.label);  
+        }
+        return nueva;
+    }
+    public void impactoHoyo(String nombreEnemigo,int indiceMio,int x,int y) throws IOException{
+        Jugador enemigo = buscarJugador(nombreEnemigo);
+        Jugador yo = jugadores.get(indiceMio);
+        if(enemigo != null && yo != null){
+            Componentes comp = enemigo.impactaron(x, y);
+            if (comp != null){
+                if(comp.nombre.equals("Hoyo")){
+                    tiroHoyo(enemigo,yo);
+                    return;
+                }
+                server.setFire(jugadores.indexOf(enemigo),jugadores.indexOf(yo),x,y);
+                if(comp.enFuego()){
+                    if(enemigo.grafo.mundo.comp.equals(comp)){
+                        ArrayList<JLabel> lbls = getAllLabels(jugadores.indexOf(enemigo));
+                        ArrayList<ArrayList<String>> names = getNombres(jugadores.indexOf(enemigo),lbls);
+                        server.disconexion(nombreEnemigo,indiceMio,lbls,names);
+                    }
+                    else{
+                        System.out.println("Esta en fuego");
+                    
+                    ArrayList<JLabel> lbls = enemigo.grafo.borrarNodo(nombreEnemigo,indiceMio,comp);
+                    if(lbls != null && lbls.size()>0){
+                        ArrayList<ArrayList<String>> names = getNombres(jugadores.indexOf(enemigo),lbls);
+                        server.disconexion(nombreEnemigo,indiceMio,lbls,names);
+                    }
+                    }
+                }
+        }
+    }
+    }
+    public void tiroHoyo(Jugador yo,Jugador enemigo) throws IOException{
+        for (int i = 0; i < 3; i++) {
+            int x = (int) (Math.random() * 15);
+            int y = (int) (Math.random() * 15);
+            impactoHoyo(enemigo.nombre,jugadores.indexOf(yo),x,y);
+        }
+         
+    }
     public void impacto(String nombreEnemigo,int indiceMio,int x,int y,String tipo) throws IOException{
         Jugador enemigo = buscarJugador(nombreEnemigo);
         Jugador yo = jugadores.get(indiceMio);
         if(enemigo != null && yo != null){
             Componentes comp = enemigo.impactaron(x, y);
             if (comp != null){
+                if(comp.nombre.equals("Hoyo")){
+                    tiroHoyo(enemigo,yo);
+                    return;
+                }
                 server.setFire(jugadores.indexOf(enemigo),jugadores.indexOf(yo),x,y);
                 if(comp.enFuego()){
-                    System.out.println("Esta en fuego");
-                    enemigo.grafo.borrarNodo(nombreEnemigo,indiceMio,comp);
+                    if(enemigo.grafo.mundo.comp.equals(comp)){
+                        ArrayList<JLabel> lbls = getAllLabels(jugadores.indexOf(enemigo));
+                        ArrayList<ArrayList<String>> names = getNombres(jugadores.indexOf(enemigo),lbls);
+                        server.disconexion(nombreEnemigo,indiceMio,lbls,names);
+                    }
+                    else{
+                        System.out.println("Esta en fuego");
+                    
+                    ArrayList<JLabel> lbls = enemigo.grafo.borrarNodo(nombreEnemigo,indiceMio,comp);
+                    if(lbls != null && lbls.size()>0){
+                        ArrayList<ArrayList<String>> names = getNombres(jugadores.indexOf(enemigo),lbls);
+                        server.disconexion(nombreEnemigo,indiceMio,lbls,names);
+                    }
+                    }
                 }
                 if (tipo.equals("Multi-Shot")){
                     armaMultiShot(nombreEnemigo,indiceMio,tipo);

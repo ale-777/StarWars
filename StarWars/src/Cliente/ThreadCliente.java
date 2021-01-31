@@ -103,7 +103,28 @@ public class ThreadCliente extends Thread{
                         }
                         //refPantalla.pintarEnemigo(labels);
                         break;
-                    
+                    case 9:
+                        ArrayList<JLabel> labels9 = new ArrayList<>();
+                        String enemy = reader.readUTF();
+                        int cuantos9 = reader.readInt();
+                        for (int i = 0; i < cuantos9; i++) {
+                            labels9.add((JLabel) objReader.readObject());
+                        }
+                        ArrayList<ArrayList<String>> names9 = (ArrayList<ArrayList<String>>) objReader.readObject();
+                        refPantalla.agregarDesconexion(enemy,labels9,names9);
+                        break;
+                    case 10:
+                        int x10 = reader.readInt();
+                        int y10 = reader.readInt();
+                        int x102 = reader.readInt();
+                        int y102 = reader.readInt();
+                        refPantalla.agregarHoyos(x10,y10,x102,y102);
+                        break;
+                    case 11:
+                        String usuarioTmp = reader.readUTF();
+                        String sms = reader.readUTF();
+                        refPantalla.addMensaje(usuarioTmp+">   " + sms);
+                        break;
                 }
             } catch (IOException ex) {
                 

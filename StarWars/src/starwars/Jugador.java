@@ -44,6 +44,25 @@ public class Jugador {
           }
       }
     }
+    public int[] crearHoyos(){
+        int [] indice = new int [4];
+        int x1 = (int) (Math.random() * 15);
+        int y1 = (int) (Math.random() * 15);
+        matriz[x1][y1]= 2;
+        int x2 = (int) (Math.random() * 15);
+        int y2 = (int) (Math.random() * 15);
+        if( matriz[x2][y2]== 2){
+            while(matriz[x2][y2]== 2){
+                x2 = (int) (Math.random() * 15);
+                y2 = (int) (Math.random() * 15);
+            }
+        }
+        indice[0] = x1;
+        indice[1] = y1;
+        indice[2] = x2;
+        indice[3] = y2;
+        return indice;
+    }
     public void ocuparEspacio(String Nombre,int x,int y,String lado){
         if (nombre == "Mundo"){
             matriz[x][y] = 1;
@@ -99,6 +118,10 @@ public class Jugador {
                 comp.casillasFuego++; 
                 return comp;
             }
+        }
+        else if(matriz[x][y] == 2){
+            Mundo mundi = new Mundo("Hoyo",0,0,0,0,0,null);
+            return mundi;
         }
         return null;
     }

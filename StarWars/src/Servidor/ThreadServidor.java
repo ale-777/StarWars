@@ -120,7 +120,16 @@ public class ThreadServidor extends Thread{
                         String nombreAux = reader.readUTF();
                         server.actualizarEnemigo(nombre,server.conexiones.indexOf(this));
                         break;
-   
+                    case 9:
+                        String sms = reader.readUTF();
+                        String name9 = reader.readUTF();
+                        for (int i = 0; i < server.conexiones.size(); i++) {
+                            ThreadServidor current = server.conexiones.get(i);
+                            current.writer.writeInt(11);
+                            current.writer.writeUTF(name9);
+                            current.writer.writeUTF(sms);
+                        }
+                        break;
                         
                 }
             } catch (IOException ex) {

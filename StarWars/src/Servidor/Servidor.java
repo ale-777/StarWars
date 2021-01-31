@@ -85,6 +85,14 @@ public class Servidor {
         current.objWriter.writeObject(nombres);
     }
     }
+    public void mandarHoyos(int indice,int[] indices) throws IOException{
+        ThreadServidor current = conexiones.get(indice);
+        current.writer.writeInt(10);
+        current.writer.writeInt(indices[0]);
+        current.writer.writeInt(indices[1]);
+        current.writer.writeInt(indices[2]);
+        current.writer.writeInt(indices[3]);
+    }
     public void setFire(int indexEnemigo,int yo,int x,int y) throws IOException{
         ThreadServidor enemigo = conexiones.get(indexEnemigo);
         ThreadServidor myself = conexiones.get(yo);
@@ -96,8 +104,16 @@ public class Servidor {
         myself.writer.writeInt(x);
         myself.writer.writeInt(y);
     }
-    public void pintarDesconexo(String enemigo,int yo, ArrayList<JLabel> lbls){
-        
+    public void disconexion(String enemigo,int yo, ArrayList<JLabel> lbls,ArrayList<ArrayList<String>> nombres) throws IOException{
+        ThreadServidor myself = conexiones.get(yo);
+        myself.writer.writeInt(9);
+        myself.writer.writeUTF(enemigo);
+        myself.writer.writeInt(lbls.size());
+        for (int i = 0; i < lbls.size(); i++) {
+            JLabel get = lbls.get(i);
+            myself.objWriter.writeObject(get);
+        }
+        myself.objWriter.writeObject(nombres);
     }
     public void mandarArrayFuego(int indice,int x,int y) throws IOException{
         ThreadServidor current = conexiones.get(indice);

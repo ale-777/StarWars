@@ -141,6 +141,8 @@ public class Grafo {
                     traerLabels(nodosAdyacentes.get(i),lbls);
                 }
             }
+            if (lbls.size()>0)
+                lbls.add(nodo.comp.label);
             return lbls;
     }
        return null; 
